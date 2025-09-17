@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-demo
+  template:
+    metadata:
+      labels:
+        app: mongo-demo
+    spec:
+      serviceAccountName: mongodb-sa
+      containers:
+        - image: bitnami/mongodb:latest
+          name: mongo
+          env:
+          - name: MONGODB_ROOT_PASSWORD
+            value: "secret"
+          - name: MONGODB_ROOT_USER
+            value: "admin"
+          ports:
+          - containerPort: 27017
+          volumeMounts:
+            - name: mongo-volume
+              mountPath: /bitnami/mongodb  # /data/db
+      volumes:
+        - name: mongo-volume
+          # emptydir: {}
+          # hostPath:
+          #   path: /data
+          persistentVolumeClaim:
+             claimName: my-mongo-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-svc-demo
+spec:
+  ports:
+    - port: 27017
+      protocol: TCP
+      targetPort: 27017
+      # nodePort: 32000
+  selector:
+    app: mongo-demo
+  # type: NodePort

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind:  Deployment
+metadata:
+  name: todo-ui-depl
+  annotations:
+     kubernetes.io/change-cause: "Initial state"
+spec:
+  replicas: 2
+  selector:
+     matchLabels:
+        app: todo-ui-pod
+  template:
+    metadata:
+      name: todo-ui-pod-spec
+      labels:
+        app: todo-ui-pod
+    spec:
+      containers:
+      - name: todo-ui
+        image: pavanelthepu/todo-ui:1.0.2
+        ports:
+        - containerPort: 80
+---
+
+apiVersion: v1
+kind: Service0
+metadata:
+   name: todo-ui-service
+spec:
+   selector:
+      app: todo-ui-pod
+   ports:
+     - port: 8080
+       targetPort: 80
+ 
+#  spring.data.mongodb.uri   8080 - 8082
+
+#  REACT_APP_BACKEND_SERVER_URL   3000 - 80

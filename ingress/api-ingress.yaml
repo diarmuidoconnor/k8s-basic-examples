@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind:  Deployment
+metadata:
+  name: todo-api-depl
+  annotations:
+     kubernetes.io/change-cause: "Initial state"
+spec:
+  replicas: 2
+  selector:
+     matchLabels:
+        app: todo-api-pod
+  template:
+    metadata:
+      name: todo-api-pod-spec
+      labels:
+        app: todo-api-pod
+    spec:
+      containers:
+      - name: todo-api
+        image: pavanelthepu/todo-api:1.0.2
+        ports:
+        - containerPort: 8082
+        env:
+        - name: "spring.data.mongodb.uri"
+          value: "mongodb+srv://readuser:LOyTtpE7ZhFVJVSg@doconnor-atlas-cluster.vddmf.mongodb.net/todos"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+   name: todo-api-service
+spec:
+   selector:
+      app: todo-api-pod
+   ports:
+     - port: 8080
+       targetPort: 8082
+ 
+#  spring.data.mongodb.uri   8080 - 8082
+
+#  REACT_APP_BACKEND_SERVER_URL   3000 - 80
