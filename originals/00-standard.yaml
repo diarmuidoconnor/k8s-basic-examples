@@ -1,7 +1,7 @@
 # Mandatory parts of a resource's configuration.
 apiVersion:  # Depends on the resource type
 kind:        # Resource type
-metadata:    # Name, Labels (arbitary ), and annotations 
+metadata:    # Name, Labels (arbitary), and annotations 
 
 spec:        # 
  
