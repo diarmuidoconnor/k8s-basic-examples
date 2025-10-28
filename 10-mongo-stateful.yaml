@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo-sful
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mongo-stateful
+  template:
+    metadata:
+      labels:
+        app: mongo-stateful
+    spec:
+      serviceAccountName: mongodb-sa
+      containers:
+        - image: bitnami/mongodb:latest
+          name: mongo
+          env:
+          - name: MONGODB_ROOT_PASSWORD
+            value: "secret"
+          - name: MONGODB_ROOT_USER
+            value: "admin"
+          - name: MONGODB_DEFAULT_REPLICA_SET_NAME
+            value: "rs0"
+          ports:
+          - containerPort: 27017
+          # command:
+          #   - mongod
+          #   - "dbpath"
+          #   - "/bitnami/mongodb"
+          #   - "--bind_ip_all"
+          #   - "--replSet"
+          #   - "rs0"
+          volumeMounts:
+            - name: mongo-stateful-volume
+              mountPath: /bitnami/mongodb  # /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-stateful-volume
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "nfs-client"
+        resources:
+          requests:
+            storage: 50M

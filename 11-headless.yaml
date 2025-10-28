@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+   name: mongo-stateful-service
+spec:
+   clusterIP: None     # Default
+   selector:           # How to match a service to a pod(s)
+      app: mongo-stateful
+   ports:
+     - port: 27017       # Port that the service receives requests
+       targetPort: 27017   # The container's port
+ 
