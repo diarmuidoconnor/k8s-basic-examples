@@ -13,6 +13,7 @@ spec:
       labels:
         app: httpd
     spec:
+      serviceAccountName: bsc-ssd-y4-2025-sa
       containers:
       - name: httpd-pod1
         image: httpd:latest

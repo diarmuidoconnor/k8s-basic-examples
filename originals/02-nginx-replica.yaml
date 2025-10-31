@@ -13,6 +13,7 @@ spec:
       labels:
         app: nginx
     spec:
+      serviceAccountName: bsc-ssd-y4-2025-sa
       containers:
       - name: nginx-pod1
         image: nginx:latest
