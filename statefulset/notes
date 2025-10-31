@@ -1,0 +1,2 @@
+
+❯ oc exec -it mongo-sful-0 -n doc-trial2 -- mongosh -u "admin" -p "secret"
