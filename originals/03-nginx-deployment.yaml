@@ -3,9 +3,9 @@ kind:  Deployment
 metadata:
   name: nginx-depl
   annotations:
-    #  kubernetes.io/change-cause: "Change to Nginx 1.21.5"
+    #  kubernetes.io/change-cause: "Change to Nginx 1.25.0"
      kubernetes.io/change-cause: "Initial deployment"
-    #  kubernetes.io/change-cause: "Change to port 82"
+    #  kubernetes.io/change-cause: "hange to Nginx 1.29.0"
 
 spec:
   replicas: 2
