@@ -5,7 +5,7 @@ metadata:
 immutable: false
 data:
   username: admin
-  # passworf: secret
+  password: pass1234
   mongodb.conf: |
     This is a test file
     with multiple lines

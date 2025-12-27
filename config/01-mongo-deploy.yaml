@@ -6,22 +6,22 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongo-demo
+      app: mongo-pod-demo
   template:
     metadata:
       labels:
-        app: mongo-demo
+        app: mongo-pod-demo
     spec:
-      serviceAccountName: mongodb-sa
+      serviceAccountName: bsc-ssd-y4-2025-sa
       containers:
         - image: bitnami/mongodb:latest
           name: mongo
           env:
           - name: MONGODB_ROOT_PASSWORD
             valueFrom:
-              secretKeyRef:
+              secretKeyRef:     # secretKeyRef:
                 key: password
-                name: mongodb-secret
+                name: mongodb-secret   # mongodb-secret
           - name: MONGODB_ROOT_USER
             valueFrom:
               configMapKeyRef:
@@ -43,8 +43,8 @@ spec:
           configMap:
             name: mongodb-config
             items:
-              - key: mongodb.conf
-                path: test.conf
+            - key: mongodb.conf
+              path: test.conf
 ---
 
 apiVersion: v1
@@ -58,5 +58,5 @@ spec:
       targetPort: 27017
       # nodePort: 32000
   selector:
-    app: mongo-demo
-  # type: NodePort
+    app: mongo-pod-demo
+  type: ClusterIP
