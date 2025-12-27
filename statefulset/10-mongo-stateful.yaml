@@ -1,20 +1,22 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongo-sful
+  name: mongo-sts
 spec:
   replicas: 3
+  serviceName: mongo-sts-svc
   selector:
     matchLabels:
-      app: mongo-stateful
+      app: mongo-sts
   template:
     metadata:
       labels:
-        app: mongo-stateful
+        app: mongo-sts
     spec:
-      serviceAccountName: mongodb-sa
+      serviceAccountName: bsc-ssd-y4-2025-sa
       containers:
-        - image: bitnami/mongodb:latest
+        - image:  bitnami/mongodb:latest
+          imagePullPolicy: IfNotPresent
           name: mongo
           env:
           - name: MONGODB_ROOT_PASSWORD
@@ -25,19 +27,19 @@ spec:
             value: "rs0"
           ports:
           - containerPort: 27017
-          # command:
-          #   - mongod
-          #   - "dbpath"
-          #   - "/bitnami/mongodb"
-          #   - "--bind_ip_all"
-          #   - "--replSet"
-          #   - "rs0"
+          command:
+            - mongod
+            - "--dbpath"
+            - "/bitnami/mongodb"
+            - "--bind_ip_all"
+            - "--replSet"
+            - "rs0"
           volumeMounts:
-            - name: mongo-stateful-volume
+            - name: mongo-sts-pvc
               mountPath: /bitnami/mongodb  # /data/db
   volumeClaimTemplates:
     - metadata:
-        name: mongo-stateful-volume
+        name: mongo-sts-pvc
       spec:
         accessModes: ["ReadWriteOnce"]
         storageClassName: "nfs-client"
