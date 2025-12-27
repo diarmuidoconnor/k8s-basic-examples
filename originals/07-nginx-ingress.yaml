@@ -4,7 +4,7 @@ metadata:
   name: nginx-ingress
 spec:
   rules:
-  - host: doc-nginx.apps.ocp-setu.waltoninstitute.ie
+  - host: doc-nginx.apps.ocp-setu.waltoninstitute.ie/
     http:
       paths:
       - path: /

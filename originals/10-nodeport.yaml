@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+   name: nginx-np-service
+spec:
+   type: NodePort     # Default
+   selector:           # How to match a service to a pod(s)
+      app: nginx-pod
+   ports:
+     - port: 8081       # Port that the service receives requests
+       targetPort: 80   # The container's port
+       nodePort: 30000

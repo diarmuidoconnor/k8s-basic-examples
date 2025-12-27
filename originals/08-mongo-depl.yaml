@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongo-demo
+  name: mongo-demo-depl
 spec:
   replicas: 1
   selector:
@@ -12,7 +12,7 @@ spec:
       labels:
         app: mongo-demo
     spec:
-      serviceAccountName: mongodb-sa
+      serviceAccountName: bsc-ssd-y4-2025-sa  # mongodb-sa
       containers:
         - image: bitnami/mongodb:latest
           name: mongo
@@ -28,11 +28,11 @@ spec:
               mountPath: /bitnami/mongodb  # /data/db
       volumes:
         - name: mongo-volume
-          # emptydir: {}
+          emptydir: {}
           # hostPath:
           #   path: /data
-          persistentVolumeClaim:
-             claimName: my-mongo-pvc
+          # persistentVolumeClaim:
+          #    claimName: mongo-pvc
 
 ---
 
