@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo-sts
+spec:
+  replicas: 3
+  serviceName: mongo-sts-svc
+  selector:
+    matchLabels:
+      app: mongo-sts
+  template:
+    metadata:
+      labels:
+        app: mongo-sts
+    spec:
+      # serviceAccountName: bsc-ssd-y4-2025-sa
+      containers:
+        - image:  bitnami/mongodb:latest
+          imagePullPolicy: IfNotPresent
+          name: mongo
+          env:
+          - name: MONGODB_ROOT_PASSWORD
+            value: "secret"
+          - name: MONGODB_ROOT_USER
+            value: "admin"
+          - name: MONGODB_DEFAULT_REPLICA_SET_NAME
+            value: "rs0"
+          ports:
+          - containerPort: 27017
+          command:
+            - mongod
+            - "--dbpath"
+            - "/bitnami/mongodb"
+            - "--bind_ip_all"
+            - "--replSet"
+            - "rs0"
+          volumeMounts:
+            - name: mongo-sts-pvc
+              mountPath: /bitnami/mongodb  # /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-sts-pvc
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "standard"
+        resources:
+          requests:
+            storage: 50M
