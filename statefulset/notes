@@ -1,2 +1,15 @@
 
-❯ oc exec -it mongo-sful-0 -n doc-trial2 -- mongosh -u "admin" -p "secret"
+
+
+
+oc exec -it mongo-sful-0 -n doc-trial2 -- mongosh 
+
+-u "admin" -p "secret"
+
+
+kubectl exec -it mongo-sts-0 -c mongo -- mongosh --quiet --eval 'rs.initiate({
+  _id: "rs0",
+  members: [
+    {_id: 0, host: "mongo-sts-0.mongo-sts-svc.default.svc.cluster.local:27017"},
+    {_id: 1, host: "mongo-sts-1.mongo-sts-svc.default.svc.cluster.local:27017"},
+    {_id: 2, host: "mongo-sts-2.mongo-sts-svc.default.svc.cluster.local:27017"}]})'
