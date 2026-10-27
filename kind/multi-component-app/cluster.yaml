@@ -1,0 +1,15 @@
+# KIND cluster config. Don't pass this file to kind directly:
+# create-cluster.sh replaces __DATA_DIR__ with an absolute path.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+  # The MongoDB worker. Its mongo-data label is used to place the database pod.
+  - role: worker
+    labels:
+      mongo-data: "true"
+    extraMounts:
+      - hostPath: /workspaces/k8s-basic-examples/kind/multi-component-app/data
+        containerPath: /mnt/mongo-data
+  # A second worker for other workloads (e.g. the Express Web App).
+  - role: worker
