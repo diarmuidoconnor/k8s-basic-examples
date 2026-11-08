@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: mongo-svc
 spec:
+  clusterIP: None     # Default
   ports:
   - port: 27017
     protocol: TCP
